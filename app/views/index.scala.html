@@ -4,24 +4,32 @@
 
 @main("TODO list") {
 
-    <h1>@tasks.size task(s)<h1>
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <div class="page-header">
+          <h1>all tasks</h1>
+        </div>
+        <ul class="list-group">
+          @tasks.map { task =>
+            <li class="list-group-item">
+              @task.label
+              <div class="pull-right">
+                @form(routes.Application.deleteTask(task.id)) {
+                  <button type="submit" class="close" aria-hidden="true">&times;</button>
+                }
+              </div>
+            </li>
+          }
+        </ul>
 
-      <ul>
-        @tasks.map { task =>
-          <li>
-            @task.label
-
-            @form(routes.Application.deleteTask(task.id)) {
-              <input type='submit' value='Delete'>
-            }
-          </li>
+        @form(routes.Application.newTask) {
+          <div class="form-group">
+            <input type="text" class="form-control" id="label" name="label" placeholder="Add new task">
+            <!-- @inputText(taskForm("label"), 'class -> "form-control") -->
+          </div>
+          <button type="submit" class="btn btn-default btn-block">Create</button>
         }
-      </ul>
-      <h2>Add a new task</h2>
-
-      @form(routes.Application.newTask) {
-        @inputText(taskForm("label"))
-        <input type='submit' value='Create'>
-      }
+      </div>
+    </div>
 
 }
